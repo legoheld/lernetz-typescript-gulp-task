@@ -1,0 +1,35 @@
+{
+  "name": "lernetz-typescript-gulp-task",
+  "version": "0.0.0",
+  "description": "This node module that wraps several gulp plugins into a reusable glup task with options",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/legoheld/lernetz-typescript-gulp-task"
+  },
+  "keywords": [
+    "gulp",
+    "task",
+    "typescript",
+    "lernetz",
+    "package"
+  ],
+  "author": "Michael Heimann",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/legoheld/lernetz-typescript-gulp-task/issues"
+  },
+  "homepage": "https://github.com/legoheld/lernetz-typescript-gulp-task",
+  "dependencies": {
+    "gulp": "^3.8.11",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-typescript": "^2.6.0",
+    "gulp-uglify": "^1.2.0",
+    "merge": "^1.2.0",
+    "merge2": "^0.3.5"
+  }
+}
