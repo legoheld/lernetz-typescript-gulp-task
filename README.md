@@ -1,5 +1,5 @@
 # lernetz-typescript-gulp-task
-This node module wraps several gulp plugins executions into one reusable glup task.
+This node module wraps several gulp plugins executions into one reusable gulp task.
 The main goal of the task is to compile a set of typescript files into a single js file.
 It automatically creates a minified version and injects the sourcemaps.
 
