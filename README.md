@@ -15,7 +15,7 @@ It creates the files:
 var gulp = require('gulp');
 var tsTask = require( 'lernetz-typescript-gulp-task' );
 
-gulp.task( 'typescript', tsTask( { bundle:'demo', dest:'public', src:'typescript/**/*.ts' } );
+gulp.task( 'typescript', tsTask( { bundle:'demo', dest:'public', src:'typescript/**/*.ts' } ) );
 ```
 
 ## Options
