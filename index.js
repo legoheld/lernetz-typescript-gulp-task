@@ -24,7 +24,7 @@ module.exports = function( options ) {
 	options = merge( defaults, options );
 	
 	// create typescript project for incemental compile
-	var tsProject = ts.createProject( options.ts );
+	var tsProject = ts.createProject( 'tsconfig.json', options.ts );
 	
 	// return task function
 	return function() {
