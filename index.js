@@ -16,15 +16,15 @@ module.exports = function( options ) {
 			out: bundle + '.js',
 			declarationFiles: true
 		},
-		src:'typescript/**/*.ts',
-		dest:'public/js'
+		src:'**/*.ts',
+		dest:'js'
 	}
 	
 	// merge options with default values
 	options = merge( defaults, options );
 	
 	// create typescript project for incemental compile
-	var tsProject = ts.createProject( 'tsconfig.json', options.ts );
+	var tsProject = ts.createProject( options.ts );
 	
 	// return task function
 	return function() {
