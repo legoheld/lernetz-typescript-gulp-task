@@ -8,20 +8,22 @@ var rename = require("gulp-rename");
 
 
 module.exports = function( options ) {
+
 	
 	var bundle = ( options.bundle ) ? options.bundle : 'main';
 	
 	var defaults = {
 		ts: {
 			out: bundle + '.js',
-			declarationFiles: true
+			declaration: true,
+			target: 'ES5'
 		},
 		src:'**/*.ts',
 		dest:'js'
 	}
 	
 	// merge options with default values
-	options = merge( defaults, options );
+	options = merge.recursive( defaults, options );
 	
 	// create typescript project for incemental compile
 	var tsProject = ts.createProject( options.ts );
