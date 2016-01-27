@@ -1,7 +1,7 @@
 {
   "name": "lernetz-typescript-gulp-task",
-  "version": "0.0.3",
-  "description": "This node module that wraps several gulp plugins into a reusable glup task with options",
+  "version": "0.1.0",
+  "description": "This node module that wraps several gulp plugins into a reusable gulp task with options to complie typscript code",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,6 +15,7 @@
     "task",
     "typescript",
     "lernetz",
+    "browserify",
     "package"
   ],
   "author": "Michael Heimann",
@@ -24,12 +25,16 @@
   },
   "homepage": "https://github.com/legoheld/lernetz-typescript-gulp-task",
   "dependencies": {
+    "browserify": "^12.0.1",
     "gulp": "^3.9.0",
     "gulp-rename": "^1.2.2",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-typescript": "^2.9.2",
-    "gulp-uglify": "^1.4.2",
+    "gulp-streamify": "^1.0.2",
+    "gulp-uglify": "^1.5.1",
+    "gulp-util": "^3.0.7",
     "merge": "^1.2.0",
-    "merge2": "^0.3.6"
+    "tsify": "^0.13.1",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.6.1"
   }
 }
