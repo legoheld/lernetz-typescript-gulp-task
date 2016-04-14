@@ -18,10 +18,11 @@ function invoke( options ) {
     var defaults = {
         bundle:'main',
         dest:'public/out',
-		src: 'src/main.ts',
+		src: './src/main.ts',
         watch: true,
         browserify: {
             debug: true,
+			basedir: '.',
             cache: {},
             packageCache: {}
         }
@@ -29,11 +30,27 @@ function invoke( options ) {
     
 	// merge options with default values
 	options = merge.recursive( defaults, options );
-
+	
+	
+	console.log( required );
+	
     // instantiate browserify
-    var bundler = browserify( options.browserify )
-    .add( options.src )
-    .plugin( tsify );
+    var bundler = browserify( options.browserify );
+	
+	// setup add
+	if( options.add ) bundler.add( options.add );
+	
+	// setup require
+	if( options.require ) {
+		
+		// prepare source definition
+		var req = options.require;
+		var required = ( Array.isArray( req ) ) ? req.map( mapRequire ) : [ mapRequire( req ) ];
+
+		bundler.require( required );
+	}
+
+	bundler.plugin( tsify );
     
     // bundle function for reference
     function bundle() {
@@ -53,6 +70,17 @@ function invoke( options ) {
     }
     
     return bundle;
+}
+
+
+/**
+ * Turns the string, string array with the expose name into a { file:.., expose:.. } object array
+ */
+function mapRequire( src ) {
+	var parts = src.split( ':' );
+	var obj = { file:parts[0] };
+	if( parts.length > 1 ) obj.expose = parts[1];
+	return obj;
 }
 
 module.exports = invoke;
