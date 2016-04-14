@@ -16,6 +16,8 @@
     "typescript",
     "lernetz",
     "browserify",
+	"require",
+	"bundle",
     "package"
   ],
   "author": "Michael Heimann",
