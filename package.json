@@ -26,17 +26,17 @@
     "url": "https://github.com/legoheld/lernetz-typescript-gulp-task/issues"
   },
   "homepage": "https://github.com/legoheld/lernetz-typescript-gulp-task",
-  "dependencies": {
-    "browserify": "^13.0.1",
+  "dependencies": {},
+  "devDependencies": {
+    "@alexlur/rollup-plugin-typescript": "^1.0.2",
     "gulp": "^3.9.1",
+    "gulp-better-rollup": "^1.0.2",
+    "gulp-minify": "0.0.15",
     "gulp-rename": "^1.2.2",
-    "gulp-streamify": "^1.0.2",
-    "gulp-uglify": "*",
-    "gulp-util": "^3.0.7",
+    "gulp-sourcemaps": "^2.4.1",
     "merge": "^1.2.0",
-    "tsify": "^0.15.5",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "*",
-    "watchify": "^3.7.0"
+    "rollup-plugin-commonjs": "^7.0.0",
+    "rollup-plugin-node-resolve": "^2.0.0",
+    "typescript": "^2.1.5"
   }
 }

@@ -1,16 +1,15 @@
 'use strict';
 
-var watchify = require('watchify');
-var browserify = require('browserify');
 var gulp = require('gulp');
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
-var gutil = require('gulp-util');
-var tsify = require('tsify');
 var merge = require('merge');
-var uglify = require('gulp-uglify');
+var sourcemaps = require('gulp-sourcemaps');
 var rename = require("gulp-rename");
-var streamify = require('gulp-streamify');
+var minify = require('gulp-minify');
+var rollup = require('gulp-better-rollup');
+var resolve = require( 'rollup-plugin-node-resolve' );
+var commonjs = require( 'rollup-plugin-commonjs' );
+var typescript = require( '@alexlur/rollup-plugin-typescript' );
+
 
 
 function invoke( options ) {
@@ -18,55 +17,36 @@ function invoke( options ) {
     var defaults = {
         bundle:'main',
         dest:'public/out',
+        globalName: 'app',
 		src: './src/main.ts',
-        watch: true,
-        browserify: {
-            debug: true,
-			basedir: '.',
-            cache: {},
-            packageCache: {}
+        minify: { 
+            ext: { min:'.min.js' }
+        },
+        rollup: {
+            format: 'iife',
+            plugins: [
+				typescript(),
+				resolve( { jsnext: true, main: true, browser:true } ),
+				commonjs()
+			]
         }
 	}
     
 	// merge options with default values
 	options = merge.recursive( defaults, options );
-	
-	
-	console.log( required );
-	
-    // instantiate browserify
-    var bundler = browserify( options.browserify );
-	
-	// setup add
-	if( options.add ) bundler.add( options.add );
-	
-	// setup require
-	if( options.require ) {
-		
-		// prepare source definition
-		var req = options.require;
-		var required = ( Array.isArray( req ) ) ? req.map( mapRequire ) : [ mapRequire( req ) ];
 
-		bundler.require( required );
-	}
-
-	bundler.plugin( tsify );
+    // inject the module name
+    options.rollup.moduleName = options.globalName;
     
     // bundle function for reference
     function bundle() {
-        return bundler.bundle()
-        .on( 'error', gutil.log.bind( gutil, 'Browserify Error' ) )
-		.pipe( source( options.bundle + '.js' ) )
-		.pipe( gulp.dest( options.dest ) )
-        .pipe( streamify( uglify() ) )
-        .pipe( rename( options.bundle + '.min.js' ) )
+        return gulp.src( options.src )
+		.pipe( sourcemaps.init() )
+		.pipe( rollup( options.rollup, options.rollup.format ) )
+		.pipe( rename( options.bundle + '.js' ) )
+		.pipe( sourcemaps.write( '' ) )
+		.pipe( minify( options.minify ) )
         .pipe( gulp.dest( options.dest ) );
-    }
-    
-    if( options.watch ) {
-        bundler.plugin( watchify );
-        bundler.on( 'log', gutil.log); // output build logs to terminal
-        bundler.on( 'update', bundle );
     }
     
     return bundle;

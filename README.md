@@ -2,20 +2,24 @@
 This node module wraps several gulp plugins executions into one reusable gulp task.
 The main goal of the task is to compile a set of typescript files into a single js file.
 It automatically creates a minified version and injects the sourcemaps.
-It uses browserify/tsify for compilation that allows to bundle any modules into one file.
+It internally uses rollup with treeshaking for a smallest as possible filesize.
+Rollup is setup to bundle also npm packages. This allows to use npm packages in our source typescript.
+You need to install the required types for typescript see: https://blogs.msdn.microsoft.com/typescript/2016/06/15/the-future-of-declaration-files/
+And also install the library itself with npm so rollup can find and bundle it.
 
 
 ## Usage
-The following example will compile all the files under the folder `typescript` into to output folder `public`.
-It creates the files:
-* demo.js - the uncompressed js source including the sourcemap
-* demo.min.js - the minified js file
+The following example will compile the file `Main.ts` and bundle all its dependencies into to the output folder `public`.
+It creates the following js files:
+* bundle.js - the uncompressed js source including the sourcemap
+* bundle.min.js - the minified js file
+The resulting js file exposes the exported functions/variables of `Main.ts` under the globalName: `module`.
 
 ```javascript
 var gulp = require('gulp');
-var tsTask = require( 'lernetz-typescript-gulp-task' );
+var bundle = require( 'lernetz-typescript-gulp-task' );
 
-gulp.task( 'typescript', tsTask( { bundle:'demo', dest:'public', require:'./main.ts:moduleName', add:'./other.ts' } ) );
+gulp.task( 'bundle', bundle( { bundle:'bundle', dest:'public', src:'Main.ts', globalName:'module' } ) );
 ```
 
 ## Options
@@ -23,9 +27,10 @@ The task accepts an parameter object with the following attributes:
 ```javascript
 {
     bundle: 'name', // the name of the files to create
-    require: './index.ts:moduleName', // optional a path to a module that can be required with the given : "moduleName". Use an array of path:module strings to require multiple modules
-    add: './file.ts', // optional a file that is added to the build process. Use an array of paths to add multiple files.
 	dest: 'public', // the destination used in gulp.dest( .. )
-    browserify: { .. }, // the settings for browserify: https://github.com/substack/node-browserify#browserifyfiles--opts
+    globalName: 'app', // the global available variable to access the code
+	src: './src/Main.ts', // the source the the main typescript file
+    minify: { ext: { min:'.min.js' } }, // default options for minify that you can overwrite: https://www.npmjs.com/package/gulp-minify#options
+    rollup: { format: 'iife', plugins: [ typescript(), resolve( { jsnext: true, main: true, browser:true } ), commonjs() ] } // default options for the rollup task that you can overwrite: https://www.npmjs.com/package/gulp-better-rollup#rollupoptions
 }
 ```
