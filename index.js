@@ -21,7 +21,7 @@ function invoke( options ) {
         dest:'public/out',
 		src: './src/main.ts',
         minify: { 
-            ext: { src:'.js', min:'.min.js' }
+            ext: { min:'.min.js' }
         },
         rollup: {
             format: 'iife',
@@ -55,9 +55,9 @@ function invoke( options ) {
     function bundle() {
         return gulp.src( options.src )
 		.pipe( sourcemaps.init() )
+        .pipe( addsrc.prepend( sources ) )
 		.pipe( rollup( options.rollup, options.rollup.format ) )
 		.pipe( concat( options.bundle + '.js' ) )
-        .pipe( addsrc.prepend( sources ) )
 		.pipe( sourcemaps.write( '' ) )
 		.pipe( minify( options.minify ) )
         .pipe( gulp.dest( options.dest ) );

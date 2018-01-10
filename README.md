@@ -31,6 +31,6 @@ The task accepts an parameter object with the following attributes:
     globalName: 'app', // the global available variable to access the code
 	src: './src/Main.ts', // the source the the main typescript file
     minify: { ext: { min:'.min.js' } }, // default options for minify that you can overwrite: https://www.npmjs.com/package/gulp-minify#options
-    rollup: { format: 'iife', plugins: [ typescript(), resolve( { jsnext: true, main: true, browser:true } ), commonjs() ] } // default options for the rollup task that you can overwrite: https://www.npmjs.com/package/gulp-better-rollup#rollupoptions
+    rollup: { format: 'iife', plugins: [ typescript( { check: false } ), resolve( { jsnext: true, main: true, browser:true } ), commonjs() ] } // default options for the rollup task that you can overwrite: https://www.npmjs.com/package/gulp-better-rollup#rollupoptions
 }
 ```
