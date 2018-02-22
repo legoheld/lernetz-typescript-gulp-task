@@ -6,11 +6,11 @@ var sourcemaps = require('gulp-sourcemaps');
 var addsrc = require('gulp-add-src');
 var concat = require('gulp-concat');
 var rename = require("gulp-rename");
-var minify = require('gulp-minify');
 var rollup = require('gulp-better-rollup');
 var resolve = require( 'rollup-plugin-node-resolve' );
 var commonjs = require( 'rollup-plugin-commonjs' );
 var typescript = require( 'rollup-plugin-typescript2' );
+var minify = require('rollup-plugin-uglify');
 
 
 
@@ -28,11 +28,11 @@ function invoke( options ) {
             plugins: [
 				typescript( { check: false } ),
 				resolve( { jsnext: true, main: true, browser:true } ),
-				commonjs()
+                commonjs(),
+                minify()
 			],
             globals: {}
         },
-        externals:[]
 	}
     
 	// merge options with default values
@@ -42,24 +42,16 @@ function invoke( options ) {
     if( !options.globalName ) options.globalName = options.bundle;
 
     // inject the module name
-    options.rollup.moduleName = options.globalName;
-
-    // setup externals
-    var sources = options.externals.map( function( external ) { return external.source } );
-    options.rollup.external = options.externals.map( function( external ) { return external.module } );
-    options.externals.forEach( function( external ) {
-        options.rollup.globals[ external.module ] = external.global;
-    });
+    options.rollup.name = options.globalName;
 
     // bundle function for reference
     function bundle() {
         return gulp.src( options.src )
 		.pipe( sourcemaps.init() )
-        .pipe( addsrc.prepend( sources ) )
 		.pipe( rollup( options.rollup, options.rollup.format ) )
 		.pipe( concat( options.bundle + '.js' ) )
 		.pipe( sourcemaps.write( '' ) )
-		.pipe( minify( options.minify ) )
+		//.pipe( minify( options.minify ) )
         .pipe( gulp.dest( options.dest ) );
     }
     
