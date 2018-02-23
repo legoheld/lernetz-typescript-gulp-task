@@ -1,6 +1,6 @@
 {
   "name": "lernetz-typescript-gulp-task",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "This node module that wraps several gulp plugins into a reusable gulp task with options to complie typscript code",
   "main": "index.js",
   "scripts": {
