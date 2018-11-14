@@ -10,40 +10,39 @@ var uglify = require('gulp-uglify-es').default;
 var rename = require("gulp-rename");
 
 
-var options = {
-    name:'main',
-    dest:'public/out',
-    src: './src/main.ts',
-    rollup: {
-        inputOptions: {
-            plugins: [
-                typescript( { check:false } ),
-                resolve( { jsnext: true, main: true, browser:true } ),
-                commonjs(),
-            ]
-        },
-        outputOptions: { format: 'iife', sourcemap: true }
-    },
-    uglify: {}
-}
-
-
-gulp.task( 'ln:minify', () => {
-    return gulp.src( options.dest + "/" + options.rollup.outputOptions.name + ".js" )
-        .pipe( rename( options.rollup.outputOptions.name + ".min.js") )
-        .pipe( uglify( options.uglify ) )
-        .pipe( gulp.dest( options.dest ) );
-});
-
-
-gulp.task( 'ln:bundle', () => {
-    return rollup.rollup( options.rollup.inputOptions ).then( bundle => {
-        return bundle.write( options.rollup.outputOptions );
-    });
-});
-
-
 function entry( changes ) {
+
+    var options = {
+        name:'main',
+        dest:'public/out',
+        src: './src/main.ts',
+        rollup: {
+            inputOptions: {
+                plugins: [
+                    typescript( { check:false } ),
+                    resolve( { jsnext: true, main: true, browser:true } ),
+                    commonjs(),
+                ]
+            },
+            outputOptions: { format: 'iife', sourcemap: true }
+        },
+        uglify: {}
+    }
+
+    function lnminify(){
+        return gulp.src( options.dest + "/" + options.rollup.outputOptions.name + ".js" )
+            .pipe( rename( options.rollup.outputOptions.name + ".min.js") )
+            .pipe( uglify( options.uglify ) )
+            .pipe( gulp.dest( options.dest ) );
+    
+    }
+    
+    function lnbundle(){
+        return rollup.rollup( options.rollup.inputOptions ).then( bundle => {
+            return bundle.write( options.rollup.outputOptions );
+        });
+    }
+
 
     options = merge.recursive( options, changes );
 
@@ -53,7 +52,7 @@ function entry( changes ) {
     r.outputOptions.file = ( r.outputOptions.file ) ? r.outputOptions.file : options.dest + '/' + options.name + '.js', 
     r.outputOptions.name = ( r.outputOptions.name ) ? r.outputOptions.name : options.name;
 
-    return gulp.series( 'ln:bundle', 'ln:minify' );
+    return gulp.series( lnbundle, lnminify );
 }
 
 module.exports = entry;
