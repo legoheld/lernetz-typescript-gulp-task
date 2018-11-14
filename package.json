@@ -1,6 +1,6 @@
 {
   "name": "lernetz-typescript-gulp-task",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "This node module that wraps several gulp plugins into a reusable gulp task with options to complie typscript code",
   "main": "index.js",
   "scripts": {
@@ -28,13 +28,13 @@
   "homepage": "https://github.com/legoheld/lernetz-typescript-gulp-task",
   "dependencies": {
     "gulp": "^4.0.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-uglify-es": "^1.0.1",
-    "merge": "^1.2.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-uglify-es": "^1.0.4",
+    "merge": "^1.2.1",
     "rollup": "^0.56.5",
-    "typescript": "^2.7.2",
-    "rollup-plugin-commonjs": "^9.0.0",
-    "rollup-plugin-node-resolve": "^3.2.0",
-    "rollup-plugin-typescript2": "^0.12.0"
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-typescript2": "^0.12.0",
+    "typescript": "^2.9.2"
   }
 }
